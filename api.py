@@ -12,7 +12,7 @@ def lentach(target_date, non_bmp_map):
 
     check_date=False
     w = 0
-    while check_date == False:
+    while check_date == False: #выкачиваем посты по 100, пока не "наткнемся" на пограничную дату
         req_lentach = urllib.request.Request('https://api.vk.com/method/wall.get?domain=oldlentach&count=100&offset='+str(w*100))
         response_lentach = urllib.request.urlopen(req_lentach)
         result_lentach = response_lentach.read().decode('utf-8')
@@ -22,7 +22,7 @@ def lentach(target_date, non_bmp_map):
                 check_date = True
                 break
             else:
-                text_lentach = data1['response'][i]['text'].translate(non_bmp_map)
+                text_lentach = data1['response'][i]['text'].translate(non_bmp_map) #разбираемся со смайликами
                 lentach.write(text_lentach)
                 print (text_lentach)
         w+=1
@@ -36,7 +36,7 @@ def rbc(target_date, non_bmp_map):
     check_date=False
     w = 0
     while check_date == False:
-        req_rbc = urllib.request.Request('https://api.vk.com/method/wall.get?domain=rbc&count=100')
+        req_rbc = urllib.request.Request('https://api.vk.com/method/wall.get?domain=rbc&count=100') #каждый раз по 100, до нужной даты
         response_rbc = urllib.request.urlopen(req_rbc)
         result_rbc = response_rbc.read().decode('utf-8')
         data2 = json.loads(result_rbc)
@@ -77,7 +77,7 @@ def my_stem(filename):
     os.system('C:/Users/Note/Desktop/python/mystem.exe ' + filename +  ' new_' + filename + ' -n')
 
 
-#находим нужные слова + их частотность
+#находим нужные слова + их частотность (кол-во искомых слов делим на общее кол-во слов)
 def get_word(filename, data, words):
     local_data = []
     f = open(filename, 'r', encoding='utf-8')
@@ -93,7 +93,7 @@ def get_word(filename, data, words):
     return data
 
 
-#строим график частотности
+#строим график частотности (три больших столбца,  в каждом из которых по 5 столбцов, обозначающих искомые слова)
 def graph(data):
     X = [1, 2, 3, 4, 5]
 
